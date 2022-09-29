@@ -1,9 +1,6 @@
-from django.forms.models import model_to_dict
-
 from rest_framework.decorators import api_view
 from rest_framework.response import Response
 
-from product.models import Product
 from product.serializers import ProductSerializer
 
 
@@ -20,3 +17,5 @@ def home(request):
         print(created_post)
 
         return Response(post)
+
+    return Response({"message": "Invalid post request"}, status=400)
