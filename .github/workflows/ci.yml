@@ -1,4 +1,4 @@
-name: Django CI
+name: Django CI # name of the workflow
 
 on: # events
   push:
