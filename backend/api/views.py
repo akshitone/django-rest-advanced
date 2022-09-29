@@ -7,18 +7,15 @@ from product.models import Product
 from product.serializers import ProductSerializer
 
 
-@api_view(['GET'])
+@api_view(['POST'])
 def home(request):
-    """
-    DRF API View
-    """
-    product = Product.objects.all().order_by('?').first()
-    output_product = dict()
+    serialize_post = ProductSerializer(data=request.data)
 
-    # model instance -> python dict
-    if product:
-        # output_product = model_to_dict(
-        #     product, fields=['title', 'price', 'sale_price'])
-        output_product = ProductSerializer(product).data
+    # validate post request data
+    if serialize_post.is_valid():
+        created_post = serialize_post.save()
+        post = serialize_post.data
 
-    return Response(output_product)
+        print(created_post)
+
+        return Response(post)
