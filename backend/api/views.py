@@ -12,7 +12,8 @@ def home(request):
     serialize_post = ProductSerializer(data=request.data)
 
     # validate post request data
-    if serialize_post.is_valid():
+    # raise exception, raised the exception if fields are missing
+    if serialize_post.is_valid(raise_exception=True):
         created_post = serialize_post.save()
         post = serialize_post.data
 
