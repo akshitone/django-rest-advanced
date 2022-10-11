@@ -4,20 +4,12 @@ from product.models import Product
 from product.serializers import ProductSerializer
 
 
-class ProductCreateAPIView(generics.CreateAPIView):
-    queryset = Product.objects.all()
+class ProductListCreateAPIView(generics.ListCreateAPIView):
+    queryset = Product.objects.all().order_by('-title')[:3]
     serializer_class = ProductSerializer
 
-    def perform_create(self, serializer):
-        title = serializer.validated_data.get('title')
-        content = serializer.validated_data.get('content') or None
-        if content is None:
-            content = title
 
-        serializer.save(content=content)
-
-
-product_create_view = ProductCreateAPIView.as_view()
+product_create_view = ProductListCreateAPIView.as_view()
 
 
 class ProductDetailAPIView(generics.RetrieveAPIView):
@@ -26,3 +18,11 @@ class ProductDetailAPIView(generics.RetrieveAPIView):
 
 
 product_detail_view = ProductDetailAPIView.as_view()
+
+
+class ProductListAPIView(generics.ListAPIView):
+    queryset = Product.objects.all()
+    serializer_class = ProductSerializer
+
+
+product_list_view = ProductListAPIView.as_view()
